@@ -36,7 +36,7 @@ export const Appointment = ( { name, specialist, emergency }: AppointmentProps) 
     type InputProps = {
         name: string,
         type: string,
-    };
+    }; 
     type WithOnChangeProps = {
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
         value: string | boolean,
@@ -50,7 +50,7 @@ export const Appointment = ( { name, specialist, emergency }: AppointmentProps) 
     type ReadonlyUser = Readonly<User>;
     type MakePartial<Type> = { [key in keyof Type]?: Type[key] };
     type MakeRequired<Type> = { [key in keyof Type]-?: Type[key] };
-    
+
     return(
         <>
           <article>
