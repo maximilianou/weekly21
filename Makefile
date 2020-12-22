@@ -7,10 +7,12 @@ run-ui:
 ghcr:
 	docker login ghcr.io --username maximilianou #cat ~/personal_full.github
 ghcr-curl:
-	docker pull appropriate/curl:latest	
+	docker pull appropriate/curl:latest 
 ghcr-push:
 	docker tag appropriate/curl:latest ghcr.io/maximilianou/curl:latest
 	docker push ghcr.io/maximilianou/curl:latest
+ghcr-pull:
+	docker pull ghcr.io/maximilianou/curl:latest # public image
 
 deploy:
 	docker-compose -f docker-compose.yml up -d
