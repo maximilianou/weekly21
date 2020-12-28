@@ -9,7 +9,7 @@ type AppointmentProps = {
     emergency: number,
 }
 
-export const Appointment = ( { name, specialist, emergency }: AppointmentProps) => {
+export const AppointmentDraft = ( { name, specialist, emergency }: AppointmentProps) => {
 
     
     const removeName = <Props extends ExtractName>(props: Props)

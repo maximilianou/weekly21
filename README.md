@@ -1,6 +1,10 @@
 # weekly21
 Typescript - React - Redux Learning
 
+```
+npm i io-ts fp-ts
+```
+
 Reference:
 
 https://cevo.com.au/post/docker-cli-integration-with-amazon-ecs/

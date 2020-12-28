@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppProps } from './types';
-import {  Appointment } from './appointment/Appointment';
+import {  AppointmentDraft } from './appointmentdraft/AppointmentDraft';
 
 
 
@@ -15,8 +15,8 @@ function App({ logo }: AppProps){
         Carrot Header
         <img src={logo} alt="logo" />
       </header>
-      <section>      
-        <Appointment emergency={urgency} name={dr} specialist={spec}></Appointment>
+      <section>
+        <AppointmentDraft emergency={urgency} name={dr} specialist={spec}></AppointmentDraft>
       </section>
       <section>
         <article>
