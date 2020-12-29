@@ -113,8 +113,8 @@ package.json
 ```json
   "scripts": {
     "build": "./node_modules/.bin/tsc ",
-    "run:build": "node ./bin/app.js ",
-    "run": "./node_modules/.bin/ts-node ./src/app.ts ",
+    "start": "node ./bin/app.js ",
+    "dev": "./node_modules/.bin/ts-node ./src/app.ts ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -131,12 +131,40 @@ package.json
 
 ```
 
+```ts
+//server.ts
+import express from 'express'
+import {Express} from 'express-serve-static-core'
 
+export async function createServer(): Promise<Express> {
+  const server = express()
+  server.get('/', (req, res) => {
+    res.send('Hello world!!!')
+  })
+  return server
+}
+```
+
+```ts
+//app.ts
+import {createServer} from './utils/server'
+
+createServer()
+  .then(server => {
+    server.listen(3000, () => {
+      console.info(`Listening on http://localhost:3000`)
+    })
+  })
+  .catch(err => {
+    console.error(`Error: ${err}`)
+  })
+```
 
 Reference:
 
-https://cevo.com.au/post/docker-cli-integration-with-amazon-ecs/
+https://losikov.medium.com/backend-api-server-development-with-node-js-from-scratch-to-production-fe3d3b860003
 
+https://cevo.com.au/post/docker-cli-integration-with-amazon-ecs/
 
 https://github.com/piotrwitek/react-redux-typescript-guide
 

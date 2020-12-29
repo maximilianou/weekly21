@@ -13,6 +13,8 @@ create-api:
 	cd api && echo "console.log('Running.. TypeScript app')" > src/app.ts
     cd api && ./node_modules/.bin/tsc
 	cd api && node ./bin/app.js
+	cd api && npm i express @types/express
+
 
 
 ghcr:
