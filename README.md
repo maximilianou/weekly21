@@ -233,6 +233,7 @@ create-api:
 	cd api && node ./bin/app.js
 	cd api && npm i express @types/express
 	cd api && npm i connect express-openapi-validator swagger-routes-express validator yamljs @types/validator @types/yamljs
+    cd api && npm i swagger-ui-express @types/swagger-ui-express
 
 ```
 
@@ -256,6 +257,7 @@ import { Express } from 'express-serve-static-core'
 import * as OpenApiValidator  from 'express-openapi-validator';
 import { connector, summarise} from 'swagger-routes-express';
 import YAML from 'yamljs';
+import swaggerUi from 'swagger-ui-express';
 
 import * as api from '../api/controllers/greeting';
 
@@ -265,7 +267,9 @@ export async function createServer(): Promise<Express> {
   const apiSummary = summarise(apiDefinition);
 
   const server = express();
-
+  
+  server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDefinition));
+  
   const validatorOprions = {
     coerceType: true,
     apiSpec: yamlSpecFile,
