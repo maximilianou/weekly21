@@ -94,6 +94,45 @@ export const Users: React.FC<UsersProps> = ( { users } ) => (
 
 ```
 
+ - Create API project structure
+```sh
+# Makefile
+create-api:
+	mkdir api && cd api && npm -y init
+	cd api && npm i express-openapi-validator	
+	cd api && npm i @types/node typescript 
+	cd api && npm install ts-node -D
+	cd api &&  ./node_modules/.bin/tsc --init --rootDir src --outDir ./bin --esModuleInterop --lib ES2019 --module commonjs --noImplicitAny true
+	cd api && mkdir src
+	cd api && echo "console.log('Running.. TypeScript app')" > src/app.ts
+    cd api && ./node_modules/.bin/tsc
+	cd api && node ./bin/app.js
+```
+ - Run initial 
+package.json
+```json
+  "scripts": {
+    "build": "./node_modules/.bin/tsc ",
+    "run:build": "node ./bin/app.js ",
+    "run": "./node_modules/.bin/ts-node ./src/app.ts ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^14.14.16",
+    "express-openapi-validator": "^4.10.1",
+    "typescript": "^4.1.3"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1"
+  }
+
+```
+
+
+
 Reference:
 
 https://cevo.com.au/post/docker-cli-integration-with-amazon-ecs/
