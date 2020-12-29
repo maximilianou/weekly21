@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: API example
+  description: API example declaration
+  termsOfService: http://swagger.io/term/
+  contact: 
+    email: maximilianou@gmail.com
+  license: 
+    name: MIT
+    url: https://opensource.org/license/MIT
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: /api/v1
+tags:
+  - name: greeting
+    description: Greeting APIs
+paths:
+  /hello:
+    get:
+      description: Return message to the caller
+      tags:
+        - greeting
+      operationId: hello
+      parameters:
+        - name: name
+          required: false
+          in: query
+          description: The name of the caller
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      additionalProperties: false
+      required: 
+        - message
+      properties:
+        message:
+          type: string
