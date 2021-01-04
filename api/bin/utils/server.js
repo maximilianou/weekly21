@@ -65,6 +65,11 @@ var swagger_routes_express_1 = require("swagger-routes-express");
 var yamljs_1 = __importDefault(require("yamljs"));
 var swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 var api = __importStar(require("@exmpl/api/controllers"));
+var body_parser_1 = __importDefault(require("body-parser"));
+var morgan_1 = __importDefault(require("morgan"));
+var morgan_body_1 = __importDefault(require("morgan-body"));
+var express_dev_logger_1 = require("@exmpl/utils/express_dev_logger");
+var config_1 = __importDefault(require("@exmpl/config"));
 function createServer() {
     return __awaiter(this, void 0, void 0, function () {
         var yamlSpecFile, apiDefinition, apiSummary, server, validatorOprions, connect;
@@ -91,6 +96,16 @@ function createServer() {
                     }
                 });
             });
+            server.use(body_parser_1.default.json());
+            if (config_1.default.morganLogger) {
+                server.use(morgan_1.default(":method :url :status :response-time ms - :res[content-length]"));
+            }
+            if (config_1.default.morganBodyLogger) {
+                morgan_body_1.default(server);
+            }
+            if (config_1.default.exmplDevLogger) {
+                server.use(express_dev_logger_1.expressDevLogger);
+            }
             connect = swagger_routes_express_1.connector(api, apiDefinition, {
                 onCreateRoute: function (method, descriptor) {
                     descriptor.shift();

@@ -1,5 +1,4 @@
 import express from 'express';
-import { nextTick } from 'process';
 
 export const expressDevLogger = 
   (req: express.Request, res: express.Response, next: express.NextFunction): void => {
