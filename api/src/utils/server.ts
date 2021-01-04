@@ -12,6 +12,7 @@ import morgan from 'morgan';
 import morganBody from 'morgan-body';
 import {expressDevLogger} from '@exmpl/utils/express_dev_logger';
 
+import config from '@exmpl/config';
 
 export async function createServer(): Promise<Express> {
   console.debug(`utils::server.ts::createServer()`);
@@ -43,9 +44,15 @@ export async function createServer(): Promise<Express> {
   });
   
   server.use(bodyParser.json());
-  server.use(morgan(`:method :url :status :response-time ms - :res[content-length]`));
-  morganBody(server);
-  server.use(expressDevLogger);
+  if(config.morganLogger){
+    server.use(morgan(`:method :url :status :response-time ms - :res[content-length]`));
+  }
+  if(config.morganBodyLogger){
+    morganBody(server);
+  }
+  if(config.exmplDevLogger){
+    server.use(expressDevLogger); 
+  }
 
   const connect = connector(api, apiDefinition, {
     onCreateRoute: (method: string, descriptor: any[]) => {

@@ -7,7 +7,6 @@ function auth(bearerToken) {
         console.debug("services::user.ts::auth() .. token::[" + token + "]");
         if (token === 'fakeToken') {
             return resolve({ userId: 'fakeTokenId' });
-            ;
         }
         return resolve({ error: { type: 'unauthorized', message: 'Authorization Failed' } });
     });
