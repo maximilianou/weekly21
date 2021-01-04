@@ -361,6 +361,12 @@ tsconfig.json
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
 ```
 
+```
+npm i morgan morgan-body
+npm i -D @types/morgan
+```
+
+
 Reference:
 
 https://losikov.medium.com/backend-api-server-development-with-node-js-from-scratch-to-production-fe3d3b860003

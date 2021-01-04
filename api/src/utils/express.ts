@@ -1,6 +1,7 @@
 import * as express from 'express';
 import {OutgoingHttpHeaders} from 'http';
 
+
 export function writeJsonResponse(
   res: express.Response, code: any, payload: any,
   headers?: OutgoingHttpHeaders | undefined ): void {

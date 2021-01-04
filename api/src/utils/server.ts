@@ -7,6 +7,12 @@ import swaggerUi from 'swagger-ui-express';
 
 import * as api from '@exmpl/api/controllers';
 
+import bodyParser from "body-parser";
+import morgan from 'morgan';
+import morganBody from 'morgan-body';
+import {expressDevLogger} from '@exmpl/utils/express_dev_logger';
+
+
 export async function createServer(): Promise<Express> {
   console.debug(`utils::server.ts::createServer()`);
   const yamlSpecFile = './config/openapi.yml';
@@ -35,6 +41,11 @@ export async function createServer(): Promise<Express> {
       }
     });
   });
+  
+  server.use(bodyParser.json());
+  server.use(morgan(`:method :url :status :response-time ms - :res[content-length]`));
+  morganBody(server);
+  server.use(expressDevLogger);
 
   const connect = connector(api, apiDefinition, {
     onCreateRoute: (method: string, descriptor: any[]) => {
