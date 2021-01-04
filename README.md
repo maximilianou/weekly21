@@ -311,6 +311,56 @@ curl http://localhost:3021/api/v1/hello?name=Max
 {"message":"Hello, Max"}
 ```
 
+
+```sh
+maximilianou@instrument:~/projects/weekly21$ cd api/
+maximilianou@instrument:~/projects/weekly21/api$ mkdir -p src/api/services
+maximilianou@instrument:~/projects/weekly21/api$ touch src/api/services/user.ts
+maximilianou@instrument:~/projects/weekly21/api$ touch src/api/controllers/user.ts
+maximilianou@instrument:~/projects/weekly21/api$ mkdir -p src/api/utils
+maximilianou@instrument:~/projects/weekly21/api$ touch src/api/utils/express.ts
+
+```
+
+```ts
+// src/services/user.ts
+export type ErrorResponse = { error: {type: string, message: string}}
+export type AuthResponse = ErrorResponse | {userId: string}
+function auth(bearerToken: string): Promise<AuthResponse>{
+    return new Promise(function(resolve, reject){
+      const token = bearerToken.replace('Bearer','');
+      if(token === 'fakeToken'){
+        resolve({userId: 'fakeTokenId'});
+        return;
+      }
+      resolve({error: {type: 'unauthorized', message: 'Authorization Failed'}});
+    });
+}
+export default { auth: auth };
+```
+
+```ts
+```
+
+api/
+```
+	npm i tsconfig-paths
+```
+
+package.json
+```json
+    "start": "node  -r tsconfig-paths/register ./bin/app.js ",
+    "dev": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/app.ts ",
+```
+
+tsconfig.json
+```json
+    "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
+    "paths": {
+      "@exmpl/*": ["src/*","bin/*"]
+    },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+```
+
 Reference:
 
 https://losikov.medium.com/backend-api-server-development-with-node-js-from-scratch-to-production-fe3d3b860003

@@ -16,8 +16,9 @@ create-api:
 	cd api && npm i express @types/express
 	cd api && npm i connect express-openapi-validator swagger-routes-express validator yamljs @types/validator @types/yamljs
 	cd api && npm i swagger-ui-express
-    cd api && npm i -D @types/swagger-ui-express
-
+	cd api && npm i -D @types/swagger-ui-express
+	cd api && npm i tsconfig-paths
+	
 ghcr:
 	docker login ghcr.io --username maximilianou #cat ~/personal_full.github
 ghcr-curl:
