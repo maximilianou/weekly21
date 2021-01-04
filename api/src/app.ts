@@ -1,5 +1,6 @@
 import {createServer} from './utils/server';
 
+console.debug(`app.ts::init()`);
 createServer()
   .then( server => {
       server.listen( 3021, () => {

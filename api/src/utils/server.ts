@@ -5,9 +5,10 @@ import { connector, summarise} from 'swagger-routes-express';
 import YAML from 'yamljs';
 import swaggerUi from 'swagger-ui-express';
 
-import * as api from '../api/controllers/greeting';
+import * as api from '@exmpl/api/controllers';
 
 export async function createServer(): Promise<Express> {
+  console.debug(`utils::server.ts::createServer()`);
   const yamlSpecFile = './config/openapi.yml';
   const apiDefinition = YAML.load(yamlSpecFile);
   const apiSummary = summarise(apiDefinition);
@@ -37,7 +38,11 @@ export async function createServer(): Promise<Express> {
 
   const connect = connector(api, apiDefinition, {
     onCreateRoute: (method: string, descriptor: any[]) => {
-      console.log(`${method}: ${descriptor[0]} : ${(descriptor[1] as any).name}`);
+      descriptor.shift();
+      console.log(`${method}: ${descriptor.map((d:any) => d.name).join(', ')}`);
+    },
+    security: {
+      bearerToken: api.auth
     }
   });
   connect(server);
