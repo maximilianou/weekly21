@@ -1,12 +1,13 @@
 import {createServer} from './utils/server';
+import logger from '@exmpl/utils/logger';
 
-console.debug(`app.ts::init()`);
+logger.debug(`app.ts::init()`);
 createServer()
   .then( server => {
       server.listen( 3021, () => {
-          console.info(`Listening on port: ${3021}`);
+          logger.info(`Listening on port: ${3021}`);
       })
   })
   .catch( err => {
-      console.error(`Error:: ${err}`);
+      logger.error(`Error:: ${err}`);
   });

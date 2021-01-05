@@ -1,6 +1,6 @@
 import express from 'express';
 import { Express } from 'express-serve-static-core'
-import * as OpenApiValidator  from 'express-openapi-validator';
+import * as OpenApiValidator from 'express-openapi-validator';
 import { connector, summarise} from 'swagger-routes-express';
 import YAML from 'yamljs';
 import swaggerUi from 'swagger-ui-express';
@@ -14,8 +14,10 @@ import {expressDevLogger} from '@exmpl/utils/express_dev_logger';
 
 import config from '@exmpl/config';
 
+import logger from '@exmpl/utils/logger';
+
 export async function createServer(): Promise<Express> {
-  console.debug(`utils::server.ts::createServer()`);
+  logger.debug(`utils::server.ts::createServer()`);
   const yamlSpecFile = './config/openapi.yml';
   const apiDefinition = YAML.load(yamlSpecFile);
   const apiSummary = summarise(apiDefinition);
@@ -32,6 +34,9 @@ export async function createServer(): Promise<Express> {
   }
 
   server.use(OpenApiValidator.middleware(validatorOprions));
+//  await new OpenApiValidator(validatorOprions).install(server);
+
+  logger.info(apiSummary);
 
   server.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.status(err.status).json({
@@ -57,7 +62,7 @@ export async function createServer(): Promise<Express> {
   const connect = connector(api, apiDefinition, {
     onCreateRoute: (method: string, descriptor: any[]) => {
       descriptor.shift();
-      console.log(`${method}: ${descriptor.map((d:any) => d.name).join(', ')}`);
+      logger.verbose(`${method}: ${descriptor.map((d:any) => d.name).join(', ')}`);
     },
     security: {
       bearerToken: api.auth

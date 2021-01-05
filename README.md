@@ -349,8 +349,10 @@ api/
 
 package.json
 ```json
+{
     "start": "node  -r tsconfig-paths/register ./bin/app.js ",
     "dev": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/app.ts ",
+}
 ```
 
 tsconfig.json
@@ -411,7 +413,68 @@ npm i dotenv-extended dotenv-parse-variables
 npm i -D @types/dotenv-parse-variables
 ```
 
+package.json
+```json
+{
+    "start": "ENV_FILE=./config/.env.prod node  -r tsconfig-paths/register ./bin/app.js ",
+    "dev": "ENV_FILE=./config/.env.dev  ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/app.ts ",
+}
+```
 
+server.ts
+```ts
+...
+  server.use(bodyParser.json());
+  if(config.morganLogger){
+    server.use(morgan(`:method :url :status :response-time ms - :res[content-length]`));
+  }
+  if(config.morganBodyLogger){
+    morganBody(server);
+  }
+  if(config.exmplDevLogger){
+    server.use(expressDevLogger); 
+  }
+  const connect = connector(api, apiDefinition, {
+...
+```
+
+```
+npm i winston
+```
+
+src/utils/logger.ts
+```ts
+import winston from 'winston';
+import config from '@exmpl/config';
+const prettyJson = winston.format.printf( info => {
+  if(info.message.constructor === Object){
+    info.message = JSON.stringify(info.message, null, 4);
+  }
+  return `${info.timestamp} ${info.label || '-'} ${info.level}: ${info.message} `;
+});
+const logger = winston.createLogger({
+  level: config.loggerLevel === 'silent' ? undefined : config.loggerLevel,
+  silent: config.loggerLevel === 'silent',
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.prettyPrint(),
+    winston.format.splat(),
+    winston.format.simple(),
+    winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
+    prettyJson,
+  ),
+  defaultMeta: { service: 'api-example' },
+  transports: [new winston.transports.Console({})],
+});
+export default logger;
+```
+
+config/.env.schema
+```
+...
+# see src/utils/logger.ts for the list of values
+LOGGER_LEVEL=
+```
 
 Reference:
 

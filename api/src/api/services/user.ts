@@ -1,11 +1,11 @@
 export type ErrorResponse = { error: {type: string, message: string}}
 export type AuthResponse = ErrorResponse | {userId: string}
-
+import logger from '@exmpl/utils/logger';
 function auth(bearerToken: string): Promise<AuthResponse>{
-  console.debug(`services::user.ts::auth()`);
+  logger.debug(`services::user.ts::auth()`);
     return new Promise(function(resolve, reject){      
       const token = bearerToken.replace('Bearer ','');
-      console.debug(`services::user.ts::auth() .. token::[${token}]`);
+      logger.debug(`services::user.ts::auth() .. token::[${token}]`);
       if(token === 'fakeToken'){
         return resolve({userId: 'fakeTokenId'});
       }

@@ -19,6 +19,7 @@ var parsedEnv = dotenv_parse_variables_1.default(env);
 var config = {
     morganLogger: parsedEnv.MORGAN_LOGGER,
     morganBodyLogger: parsedEnv.MORGAN_BODY_LOGGER,
-    exmplDevLogger: parsedEnv.EXMPL_DEV_LOGGER
+    exmplDevLogger: parsedEnv.EXMPL_DEV_LOGGER,
+    loggerLevel: parsedEnv.LOGGER_LEVEL,
 };
 exports.default = config;

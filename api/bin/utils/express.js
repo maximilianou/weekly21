@@ -10,10 +10,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeJsonResponse = void 0;
+var logger_1 = __importDefault(require("@exmpl/utils/logger"));
 function writeJsonResponse(res, code, payload, headers) {
-    console.debug("utils::express.ts::writeJsonResponse()");
+    logger_1.default.debug("utils::express.ts::writeJsonResponse()");
     var data = typeof payload === 'object'
         ? JSON.stringify(payload, null, 2)
         : payload;
