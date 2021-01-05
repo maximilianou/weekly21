@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 var user_1 = __importDefault(require("@exmpl/api/services/user"));
 var express_1 = require("@exmpl/utils/express");
+var logger_1 = __importDefault(require("@exmpl/utils/logger"));
 function auth(req, res, next) {
-    console.debug("controller::user.ts::auth()");
+    logger_1.default.debug("controller::user.ts::auth()");
     var token = req.headers.authorization;
-    console.debug("controller::user.ts::auth() .. token=[" + token + "]");
+    logger_1.default.debug("controller::user.ts::auth() .. token=[" + token + "]");
     user_1.default.auth(token)
         .then(function (authResponse) {
-        console.debug("controller::user.ts::auth() .. authResponse=[" + authResponse + "]");
+        logger_1.default.debug("controller::user.ts::auth() .. authResponse=[" + authResponse + "]");
         if (!authResponse.error) {
             res.locals.auth = {
                 userId: authResponse.userId

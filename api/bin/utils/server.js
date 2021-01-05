@@ -70,11 +70,12 @@ var morgan_1 = __importDefault(require("morgan"));
 var morgan_body_1 = __importDefault(require("morgan-body"));
 var express_dev_logger_1 = require("@exmpl/utils/express_dev_logger");
 var config_1 = __importDefault(require("@exmpl/config"));
+var logger_1 = __importDefault(require("@exmpl/utils/logger"));
 function createServer() {
     return __awaiter(this, void 0, void 0, function () {
         var yamlSpecFile, apiDefinition, apiSummary, server, validatorOprions, connect;
         return __generator(this, function (_a) {
-            console.debug("utils::server.ts::createServer()");
+            logger_1.default.debug("utils::server.ts::createServer()");
             yamlSpecFile = './config/openapi.yml';
             apiDefinition = yamljs_1.default.load(yamlSpecFile);
             apiSummary = swagger_routes_express_1.summarise(apiDefinition);
@@ -87,6 +88,8 @@ function createServer() {
                 validateResponses: true
             };
             server.use(OpenApiValidator.middleware(validatorOprions));
+            //  await new OpenApiValidator(validatorOprions).install(server);
+            logger_1.default.info(apiSummary);
             server.use(function (err, req, res, next) {
                 res.status(err.status).json({
                     error: {
@@ -109,7 +112,7 @@ function createServer() {
             connect = swagger_routes_express_1.connector(api, apiDefinition, {
                 onCreateRoute: function (method, descriptor) {
                     descriptor.shift();
-                    console.log(method + ": " + descriptor.map(function (d) { return d.name; }).join(', '));
+                    logger_1.default.verbose(method + ": " + descriptor.map(function (d) { return d.name; }).join(', '));
                 },
                 security: {
                     bearerToken: api.auth
