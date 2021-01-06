@@ -26,15 +26,15 @@ export async function createServer(): Promise<Express> {
   
   server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDefinition));
   
-  const validatorOprions = {
+  const validatorOptions = {
     coerceType: true,
     apiSpec: yamlSpecFile,
     validateRequests: true,
     validateResponses: true
   }
 
-  server.use(OpenApiValidator.middleware(validatorOprions));
-//  await new OpenApiValidator(validatorOprions).install(server);
+  server.use(OpenApiValidator.middleware(validatorOptions));
+//  await new OpenApiValidator(validatorOptions).install(server);
 
   logger.info(apiSummary);
 
@@ -65,7 +65,7 @@ export async function createServer(): Promise<Express> {
       logger.verbose(`${method}: ${descriptor.map((d:any) => d.name).join(', ')}`);
     },
     security: {
-      bearerToken: api.auth
+      bearerAuth: api.auth
     }
   });
   connect(server);
