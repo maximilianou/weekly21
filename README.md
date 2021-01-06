@@ -476,6 +476,59 @@ config/.env.schema
 LOGGER_LEVEL=
 ```
 
+### TDD
+
+#### Unit test
+```
+npm i -D jest @types/jest ts-jest
+./node_modules/.bin/ts-jest config:init
+```
+
+```
+cat jest.config.js 
+```
+
+```js
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  moduleNameMapper: {
+    '@exmpl/(.*)':'<rootDir>/src/$1'
+  },
+};
+```
+package.json
+```json
+{
+    "test:unit": "ENV_FILE=./config/.env.test ./node_modules/.bin/jest"
+}
+```
+
+```
+touch config/.env.test
+```
+
+src/api/services/__tests__/user.ts
+```ts
+import user from '../user';
+describe('auth', () => {
+  it('should resolve to true and valid userId for hardcoded token', async () => {
+    const response = await user.auth('fakeToken');
+    expect(response).toEqual({userId: 'fakeTokenId'});
+  });
+  it('should resolve with false for invalid token', async () => {
+    const response = await user.auth('invalidToken');
+    expect(response).toEqual({error: {type: 'unauthorized', message: 'Authorization Failed'}});
+  });
+});
+```
+
+```
+npm run test:unit
+```
+
+#### HTTP test
+
 Reference:
 
 https://losikov.medium.com/backend-api-server-development-with-node-js-from-scratch-to-production-fe3d3b860003
