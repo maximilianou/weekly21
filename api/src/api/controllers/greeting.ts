@@ -13,5 +13,5 @@ export function goodbye(req: express.Request, res: express.Response): void {
   logger.debug(`controller::greeting.ts::goodbye() .. res.locals=[${JSON.stringify(res.locals)}]`);
   logger.debug(`controller::greeting.ts::goodbye() .. res.locals.auth=[${res.locals.auth}]`);
   const userId = res.locals.auth.userId;
-  writeJsonResponse(res, 200, {"message": `GoodBye, ${userId}!`});
+  writeJsonResponse(res, 200, {"message": `Goodbye, ${userId}!`});
 }
