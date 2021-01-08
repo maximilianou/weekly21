@@ -2,7 +2,6 @@ import request from 'supertest';
 import {Express} from 'express-serve-static-core';
 
 import {createServer} from '@exmpl/utils/server';
-import { doesNotMatch } from 'assert';
 
 let server: Express;
 
@@ -64,5 +63,31 @@ describe('GET /goodbye', () => {
         done();
       });
   });
-
+  it('shourd return 401 and valid error response to invalid auth token', async (done) => {
+    request(server)
+      .get(`/api/v1/goodbye`)
+      .set('Authorization', 'Bearer invalidFakeToken')
+      .expect(401)
+      .end((err, res) => {
+        if(err) return done(err);
+        expect(res.body).toMatchObject(
+          {error: {type: 'unauthorized', message: 'Authorization Failed'}});
+        done();
+      });
+  });  
+  it('should return 401 and valid error response if authorization header is missed', async (done) => {
+    request(server)
+      .get(`/api/v1/goodbye`)
+      .expect('Content-Type', /json/)
+      .expect(401)
+      .end((err, res) => {
+        if(err) return done(err);
+        expect(res.body).toMatchObject({'error': {
+          type: 'request_validation',
+          message: 'Authorization header required',
+          errors: expect.anything()
+        }});
+        done();
+      });
+    });
 });

@@ -7,7 +7,7 @@
     "build": "./node_modules/.bin/tsc ",
     "start": "ENV_FILE=./config/.env.prod node  -r tsconfig-paths/register ./bin/app.js ",
     "dev": "ENV_FILE=./config/.env.dev  ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/app.ts ",
-    "test:unit": "ENV_FILE=./config/.env.test ./node_modules/.bin/jest"
+    "test:u": "ENV_FILE=./config/.env.test ./node_modules/.bin/jest"
   },
   "keywords": [],
   "author": "",
