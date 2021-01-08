@@ -33,7 +33,7 @@ describe('GET /hello', () => {
         done();
       });
   });
-  it.skip('should return 400 and valid error response when param is empty', async (done) => {
+  it('should return 400 and valid error response when param is empty', async (done) => {
     request(server)
       .get(`/api/v1/hello?name=`)
       .expect('Content-Type', /json/)
@@ -45,6 +45,7 @@ describe('GET /hello', () => {
           message: expect.stringMatching(/Empty.*\'name\'/),
           errors: expect.anything()
         }});
+        done();
       });
   });
 
